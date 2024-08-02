@@ -1,4 +1,4 @@
-package com.example.casestudydanang.repository;
+package com.example.casestudydanang.repository.category;
 
 import com.example.casestudydanang.model.Category;
 import com.example.casestudydanang.util.Database;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAO {
+public class CategoryRepository {
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM Category";

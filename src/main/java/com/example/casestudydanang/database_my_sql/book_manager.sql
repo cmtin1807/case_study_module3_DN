@@ -34,7 +34,7 @@ CREATE TABLE Customers
     customer_code      VARCHAR(250) NOT NULL,
     customer_class     VARCHAR(250),
     customer_address   VARCHAR(250),
-    customer_birthday  DATETIME,
+    customer_birthday  DATE,
     customer_is_active BOOLEAN DEFAULT TRUE
 );
 CREATE TABLE status_borrow
@@ -48,7 +48,7 @@ CREATE TABLE borrow_transactions
     customer_id            INT,
     book_id                INT,
     borrow_date            DATE NOT NULL,
-    return_dat             DATE,
+    return_date            DATE,
     status                 ENUM ('borrow','over','return')
 );
 

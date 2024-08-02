@@ -1,4 +1,4 @@
-package com.example.casestudydanang.repository;
+package com.example.casestudydanang.repository.publisher;
 
 import com.example.casestudydanang.model.Publisher;
 import com.example.casestudydanang.util.Database;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PublisherDAO {
+public class PublisherRepository {
     public List<Publisher> getAllPublishers() {
         List<Publisher> publishers = new ArrayList<>();
         String sql = "SELECT * FROM Publisher";

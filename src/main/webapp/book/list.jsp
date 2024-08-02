@@ -21,6 +21,7 @@
             <th>Category</th>
             <th>Publisher</th>
             <th>Status</th>
+            <th>View</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -34,6 +35,7 @@
                 <td>${book.categoryName}</td>
                 <td>${book.publisherName}</td>
                 <td>${book.status ? 'New' : 'Used'}</td>
+                <td><a href="<c:url value='/books?action=view&id=${book.id}'/>" class="btn btn-primary btn-sm">View</a></td>
                 <td>
                     <a href="<c:url value='/books?action=edit&id=${book.id}'/>" class="btn btn-primary btn-sm">Edit</a>
                     <a href="<c:url value='/books?action=delete&id=${book.id}'/>" class="btn btn-danger btn-sm">Delete</a>

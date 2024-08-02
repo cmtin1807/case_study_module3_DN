@@ -2,12 +2,13 @@ package com.example.casestudydanang.controller;
 
 
 // BookManager.java (continued)
+
 import com.example.casestudydanang.model.Book;
 import com.example.casestudydanang.model.Category;
 import com.example.casestudydanang.model.Publisher;
-import com.example.casestudydanang.service.BookService;
-import com.example.casestudydanang.service.CategoryService;
-import com.example.casestudydanang.service.PublisherService;
+import com.example.casestudydanang.service.book.BookService;
+import com.example.casestudydanang.service.category.CategoryService;
+import com.example.casestudydanang.service.publisher.PublisherService;
 
 
 import javax.servlet.RequestDispatcher;
@@ -17,10 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet (name = "bookManagerServlet", urlPatterns = "/books")
+@WebServlet(name = "bookManagerServlet", urlPatterns = "/books")
 public class BookManagerServlet extends HttpServlet {
     private BookService bookService = new BookService();
 
@@ -32,11 +32,45 @@ public class BookManagerServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
-                showFormCreate(request,response);
+                showFormCreate(request, response);
                 break;
+            case "update":
+                showFormUpdate(request, response);
+                break;
+            case "delete":
+                showFormDelete(request, response);
+                break;
+            case "view":
+                showFormView(request, response);
             default:
-                showListBook(request,response);
+                showListBook(request, response);
         }
+    }
+
+    private void showFormView(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            int id = Integer.parseInt(request.getParameter("book_id"));
+            Book book = bookService.findById(id);
+            if (book != null) {
+                request.setAttribute("book", book);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("list/view.jsp");
+                requestDispatcher.forward(request, response);
+            } else {
+                response.sendRedirect("errorPage.jsp");
+            }
+        } catch (NumberFormatException | ServletException | IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    private void showFormDelete(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    private void showFormUpdate(HttpServletRequest request, HttpServletResponse response) {
+
     }
 
     private void showFormCreate(HttpServletRequest request, HttpServletResponse response) {
@@ -59,7 +93,7 @@ public class BookManagerServlet extends HttpServlet {
     }
 
     private void showListBook(HttpServletRequest request, HttpServletResponse response) {
-        List<Book> books = bookService.getAllBooks();
+        List<Book> books = bookService.findAll();
         request.setAttribute("books", books);
         RequestDispatcher dispatcher = request.getRequestDispatcher("book/list.jsp");
         try {
@@ -82,13 +116,8 @@ public class BookManagerServlet extends HttpServlet {
 
         Book book = new Book(name, description, imageUrl, status, categoryId, publisherId);
 
-        try {
-            bookService.addBook(book);
-            response.sendRedirect("books");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.sendRedirect("error.jsp");
-        }
+        bookService.save(book);
+        response.sendRedirect("books");
     }
 }
 
